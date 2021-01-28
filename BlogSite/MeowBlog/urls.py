@@ -1,6 +1,9 @@
 from django.urls import path
+from . import views
+app_name = 'MeowBlog'
 
 urlpatterns = [
+    path('', views.index, name='index'),
    path('user/signup', views.createUser, name='createUser'),
    path('user/deleteaccount', views.deleteUser, name='deleteUser'),
    path('user/updateuserprofile', views.updateUser, name='updateUser'),
