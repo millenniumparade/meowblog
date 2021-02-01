@@ -2,12 +2,20 @@ from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from .models import User, Sentense
 from django.http import HttpResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+
 
 def index(request):
-    return HttpResponse("Hello")
+    return HttpResponse(request)
     
+@csrf_exempt
 def createUser(request):
-    return HttpResponse("Hello") 
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        newUser = User(username=data["username"], password=data["password"])
+        newUser.save()
+    return HttpResponse(status=201)
 
 
 def deleteUser(request):
