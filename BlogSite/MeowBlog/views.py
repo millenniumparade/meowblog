@@ -19,18 +19,27 @@ def createUser(request):
 
 
 def deleteUser(request):
-    html = "<html><body>Delete user</body></html>"
-    return HttpResponse(html) 
+    if request.method == 'DELETE':
+        data = json.loads(request.body.decode('utf-8'))
+        user = User.object.get(username=data["username"])
+        user.delete()
+        return HttpResponse(status=200) 
 
 
 def updateUser(request):
-    html = "<html><body>Update user</body></html>"
-    return HttpResponse(html) 
+    if request.method == 'PUT':
+        data = json.loads(request.body.decode('utf-8'))
+        user = User.object.get(username=data["username"])
+        user.password = data["newPassword"]
+        user.save()
+        return HttpResponse(status=200) 
 
 
 def readUser(request):
-    html = "<html><body>Read user</body></html>"
-    return HttpResponse(html) 
+    if request.method == 'GET':
+        data = json.loads(request.body.decode('utf-8'))
+        user = User.object.get(username=data["username"])
+        return HttpResponse(user)
 
 def generateContent(request):
     html = "<html><body>Generate content</body></html>"
